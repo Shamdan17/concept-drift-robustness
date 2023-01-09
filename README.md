@@ -18,3 +18,12 @@ https://drive.google.com/drive/folders/12DMPeh8DA2ukPATnHX4K__shWFJIiBN5
 ```
 
 
+## Android Malware datasets:
+
+### KRONODROID 
+
+Download the zip files from the following link: 
+
+```
+https://github.com/aleguma/kronodroid/tree/main/emulator
+```

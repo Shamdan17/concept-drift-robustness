@@ -3,7 +3,13 @@
 
 ## Windows PE datasets:
 
-First download the data from the following links:
+First create a folder named data if it does not exist: 
+
+```
+mkdir data
+```
+
+Then, download the data from the following links:
 
 ### BODMAS
 ```
@@ -17,6 +23,7 @@ A version of EMBER preprocessed by BODMAS authors can be found here, only ember 
 https://drive.google.com/drive/folders/12DMPeh8DA2ukPATnHX4K__shWFJIiBN5
 ```
 
+Place the .npz data and .csv metadata files in the data folder.
 
 ## Android Malware datasets:
 

@@ -39,8 +39,7 @@ params_by_dataset = {
     },
 }
 
-# models = ["DT", "XGBoost", "LR", "KNN", "RF", "MLP"]
-models = ["DT", "XGBoost"]
+models = ["DT", "XGBoost", "LR", "KNN", "RF", "MLP"]
 
 
 def validate_date(date):
@@ -174,8 +173,7 @@ params_by_dataset = {
     },
 }
 
-models = ["XGBoost", "LR", "RF"]
-# models = ["LR", "RF"]
+models = ["XGBoost", "MLP"]
 
 all_dataset_statistics = {}
 for dataset in params_by_dataset:
@@ -337,7 +335,7 @@ with open(os.path.join(args.output_dir, f"experiment-2.json"), "w") as f:
 # plt.show()
 
 
-# Results with limited data, only on BODMAS (Or kronodroid maybe later)
+# Results with limited data, only on BODMAS
 params_by_dataset = {
     "bodmas": {
         "start_year": 2019,
@@ -349,9 +347,19 @@ params_by_dataset = {
         "test_duration": 5,
         "test_stride": 2,
     },
+    # "ember": {
+    #     "start_year": 2017,
+    #     "start_month": 11,
+    #     "end_year": 2018,
+    #     "end_month": 12,
+    #     "train_duration": 3,
+    #     "test_gap": 1,
+    #     "test_duration": 5,
+    #     "test_stride": 2,
+    # },
 }
 
-models = ["LR", "RF"]
+models = ["MLP", "XGBoost"]
 
 data_ratios = [1.0, 0.1, 0.01]
 dataset = "bodmas"

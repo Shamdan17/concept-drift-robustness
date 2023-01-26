@@ -113,12 +113,12 @@ def get_model(model_type):
     elif model_type == "MLP":
         model = MLPClassifier(
             hidden_layer_sizes=(512, 256, 256),
-            max_iter=1000,
+            max_iter=50,
             alpha=0.0001,
             solver="sgd",
             verbose=10,
             random_state=0,
-            learning_rate_init=0.1,
+            learning_rate_init=0.01,
         )
     else:
         raise NotImplementedError

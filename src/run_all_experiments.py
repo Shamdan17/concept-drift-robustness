@@ -322,7 +322,7 @@ for linestyle, dataset in zip(linestyles, all_dataset_statistics):
                     statistics[model_name][offset]["test"]["f1"] for offset in offsets
                 ],
                 "label": f"{model_name} on {dataset}",
-                "color": c.to_list(),
+                "color": c.tolist(),
                 "linestyle": linestyle,
             }
         )

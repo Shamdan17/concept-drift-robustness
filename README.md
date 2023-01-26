@@ -28,7 +28,7 @@ Place the .npz data and .csv metadata files in the data folder.
 
 ### KRONODROID 
 
-Download the zip files from the following link: 
+Download the zip files from the following link, and unzip them in the data folder: 
 
 ```
 https://github.com/aleguma/kronodroid/tree/main/emulator
@@ -37,7 +37,7 @@ https://github.com/aleguma/kronodroid/tree/main/emulator
 ---
 ## Training
 
-Training script can be used to train a specified model on a selected dataset, with optional arguments such as train_start_date, train_end_data, and more. E.g., to train a decision tree model on the bodmas dataset with default arguments, use the following command:
+Training script can be used to train a specified model on a selected dataset, with optional arguments such as train_start_date, train_end_data, and more. For example, to train a decision tree model on the bodmas dataset with default arguments, use the following command:
 
 
 ```

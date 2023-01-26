@@ -100,7 +100,7 @@ class PEMalwareDataset(MalwareDataset):
         return self.features[index], self.labels[index]
 
     # Filter dataset by date
-    def filter_by_date(self, start_date, end_date):
+    def filter_by_date(self, start_date, end_date, max_instances=50000):
         # Filter by date
         mask = np.logical_and(self.dates >= start_date, self.dates <= end_date)
 
@@ -110,6 +110,17 @@ class PEMalwareDataset(MalwareDataset):
         selfcopy.features = self.features[mask]
         selfcopy.labels = self.labels[mask]
         selfcopy.dates = self.dates[mask]
+
+        # If the number of instances is greater than max_instances, sample
+        if len(selfcopy) > max_instances:
+            # Sample the dataset
+            sampled_indices = np.random.choice(
+                np.arange(len(selfcopy)), max_instances, replace=False
+            )
+
+            selfcopy.features = selfcopy.features[sampled_indices]
+            selfcopy.labels = selfcopy.labels[sampled_indices]
+            selfcopy.dates = selfcopy.dates[sampled_indices]
 
         # Return the filtered dataset
         return selfcopy

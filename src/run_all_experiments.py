@@ -19,15 +19,15 @@ if not os.path.exists(args.output_dir):
 
 # First experiment, robustness to fixed-period concept drift of different models
 params_by_dataset = {
-    # "bodmas": {
-    #     "start_year": 2019,
-    #     "start_month": 8,
-    #     "end_year": 2020,
-    #     "end_month": 9,
-    #     "train_duration": 4,
-    #     "test_gap": 1,
-    #     "test_duration": 2,
-    # },
+    "bodmas": {
+        "start_year": 2019,
+        "start_month": 8,
+        "end_year": 2020,
+        "end_month": 9,
+        "train_duration": 4,
+        "test_gap": 1,
+        "test_duration": 2,
+    },
     "ember": {
         "start_year": 2017,
         "start_month": 11,
@@ -322,7 +322,7 @@ for linestyle, dataset in zip(linestyles, all_dataset_statistics):
                     statistics[model_name][offset]["test"]["f1"] for offset in offsets
                 ],
                 "label": f"{model_name} on {dataset}",
-                "color": c,
+                "color": c.to_list(),
                 "linestyle": linestyle,
             }
         )
@@ -503,7 +503,7 @@ for linestyle, data_ratio in zip(linestyles, all_dataset_statistics):
                     statistics[model_name][offset]["test"]["f1"] for offset in offsets
                 ],
                 "label": f"{model_name}, {data_ratio}% data",
-                "color": c,
+                "color": c.tolist(),
                 "linestyle": linestyle,
             }
         )

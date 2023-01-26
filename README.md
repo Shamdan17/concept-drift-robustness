@@ -43,3 +43,15 @@ Training script can be used to train a specified model on a selected dataset, wi
 ```
 python src/train.py --model_type DT --dataset bodmas 
 ```
+
+# Replicating results:
+
+First download the data from the above instructions, then run the following
+
+```
+python src/run_all_experiments.py
+python src/kronodroid_experiments.py
+```
+
+
+

@@ -19,7 +19,7 @@ from sklearn.neural_network import MLPClassifier
 from xgboost import XGBClassifier
 from sklearn.feature_selection import SelectKBest, f_classif
 
-from dataset import PEMalwareDataset
+from dataset import PEMalwareDataset, KronodroidDataset
 
 
 def get_args_parser():
@@ -36,7 +36,7 @@ def get_args_parser():
         type=str,
         required=True,
         help="Dataset name",
-        choices=["bodmas", "ember"],
+        choices=["bodmas", "ember", "kronodroid"],
     )
     parser.add_argument(
         "--train_start_date",
@@ -113,7 +113,7 @@ def get_model(model_type):
     elif model_type == "MLP":
         model = MLPClassifier(
             hidden_layer_sizes=(512, 256, 256),
-            max_iter=1000,
+            max_iter=256,
             alpha=0.0001,
             solver="sgd",
             verbose=10,
@@ -155,8 +155,16 @@ def run(
     output_dir="exps/",
 ):
     print("Loading the dataset...")
-    data = PEMalwareDataset.from_name(dataset)
+    if dataset == 'kronodroid':
+        import warnings
+        warnings.filterwarnings("ignore")
 
+        data = KronodroidDataset(path=os.path.expanduser(os.getcwd()+'/Kronodroid'))
+    else:
+        data = PEMalwareDataset.from_name(dataset)
+
+    from collections import Counter
+    print(Counter(data.dates))
     if args.feat_select:
         data = select_top_features(data, args.top_k_feat, args.debug)
 

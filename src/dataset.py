@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import copy
+import os
 from sklearn.preprocessing import StandardScaler
 
 PE_DATASETS = {
@@ -170,21 +171,21 @@ class PEMalwareDataset(MalwareDataset):
 
 
 class KronodroidDataset(MalwareDataset):
-    def __init__(self, path, p_type='emu', date='LastModDate', normalize=True, shuffle=True):
+    def __init__(self, path, date='LastModDate', normalize=True, shuffle=True):
         """
         path: directory containing *_v1.csv files.
             
         Reads 'legitimate' and 'malware' csv files of 'p_type: emu|real' separately and merges them.
         """
-        assert p_type in ['emu', 'real'], "program type must be one of: 'emu', 'real'!"
         assert date in ['FirstModDate', 'LastModDate'], "used date must be one of 'FirstModDate', 'LastModDate'"
         self.path = path
         # Read DataFrames
+        p_type = 'emu'
         path_legit = os.path.join(path, f"{p_type}_legitimate_v1.csv")
         legit_df = pd.read_csv(path_legit, low_memory=False)
         
         path_malware = os.path.join(path, f"{p_type}_malware_v1.csv")
-        malware_df = pd.read_csv(path_legit, low_memory=False)
+        malware_df = pd.read_csv(path_malware, low_memory=False)
         
         
         # Pre-process (drop some columns and fix nans)

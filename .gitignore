@@ -134,3 +134,4 @@ Kronodroid/*.csv
 # Pyre type checker
 .pyre/
 datasets/kronodroid/*/*.zip
+Kronodroid Dataset.ipynb

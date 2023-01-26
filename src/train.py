@@ -134,7 +134,7 @@ def eval(model, X_test, y_test):
     accuracy = accuracy_score(y_test, preds)
     cls_report = classification_report(y_test, preds, output_dict=True)
     f1 = cls_report["macro avg"]["f1-score"]
-    print(cls_report)
+    # print(cls_report)
     recall = cls_report["1"]["recall"]
     precision = cls_report["1"]["precision"]
     return {"accuracy": accuracy, "f1": f1, "recall": recall, "precision": precision}

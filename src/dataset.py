@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import copy
+from sklearn.preprocessing import StandardScaler
 
 PE_DATASETS = {
     "bodmas": ("data/bodmas.npz", "data/bodmas_metadata.csv"),
@@ -30,13 +31,20 @@ class MalwareDataset:
     def filter_by_date(self, start_date, end_date):
         raise NotImplementedError
 
-    def filter_by_lambda(self, filter_lambda, include_label=False, include_index=False, include_date=False):
+    def filter_by_lambda(
+        self,
+        filter_lambda,
+        include_label=False,
+        include_index=False,
+        include_date=False,
+    ):
         raise NotImplementedError
+
 
 class PEMalwareDataset(MalwareDataset):
     """
     Class for loading and filtering PE malware datasets
-    
+
     Attributes:
         path (str): Path to the dataset
         metadata_path (str): Path to the metadata file
@@ -55,21 +63,27 @@ class PEMalwareDataset(MalwareDataset):
     """
 
     # Constructor
-    def __init__(self, path, metadata_path):
+    def __init__(self, path, metadata_path, normalize=True):
         self.path = path
         self.metadata_path = metadata_path
 
         # Load the dataset
         dataset = np.load(path)
 
-        self.features = dataset['X']
-        self.labels = dataset['y']
+        self.features = dataset["X"]
+
+        if normalize:
+            self.features = StandardScaler().fit_transform(self.features)
+
+        self.labels = dataset["y"].astype(np.int)
 
         # Load the metadata
         metadata = pd.read_csv(metadata_path)
 
         # Extract and concatenate the year and month
-        dates = [int(metadata.iloc[i][1][:7].replace("-", "")) for i in range(len(metadata))]
+        dates = [
+            int(metadata.iloc[i][1][:7].replace("-", "")) for i in range(len(metadata))
+        ]
 
         self.dates = np.array(dates)
 
@@ -100,7 +114,13 @@ class PEMalwareDataset(MalwareDataset):
         # Return the filtered dataset
         return selfcopy
 
-    def filter_by_lambda(self, filter_lambda, include_label=False, include_index=False, include_date=False):
+    def filter_by_lambda(
+        self,
+        filter_lambda,
+        include_label=False,
+        include_index=False,
+        include_date=False,
+    ):
         to_iterate = [self.features]
 
         if include_label:
@@ -136,5 +156,3 @@ class PEMalwareDataset(MalwareDataset):
 
     def __repr__(self):
         return "Dataset: {}\nInstances:{}".format(self.path, len(self))
-
-

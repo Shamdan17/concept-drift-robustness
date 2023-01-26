@@ -17,6 +17,7 @@ from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
 from xgboost import XGBClassifier
+from sklearn.feature_selection import SelectKBest, f_classif
 
 from dataset import PEMalwareDataset
 
@@ -62,7 +63,29 @@ def get_args_parser():
         help="year in 4 digits followed by month in 2 digits",
     )
     parser.add_argument("--output_dir", default="exps/", type=str)
+    parser.add_argument(
+        "--feat_select",
+        action="store_true",
+        help="whether to apply feature selection or not",
+    )
+    parser.add_argument(
+        "--top_k_feat", default=1000, type=int, help="top k features to be selected"
+    )
+    parser.add_argument(
+        "--debug", action="store_true", help="allow additional prints for debugging"
+    )
     return parser
+
+
+def select_top_features(data, top_k, debug=False):
+    selector = SelectKBest(f_classif, k=top_k)
+    top_feat = selector.fit_transform(data.features, data.labels)
+    data.features = top_feat
+
+    if debug:
+        selected_feats = np.where(selector.get_support())[0]
+        print("selected feature indices", selected_feats)
+    return data
 
 
 def get_model(model_type):
@@ -133,6 +156,9 @@ def run(
 ):
     print("Loading the dataset...")
     data = PEMalwareDataset.from_name(dataset)
+
+    if args.feat_select:
+        data = select_top_features(data, args.top_k_feat, args.debug)
 
     train_set = data.filter_by_date(train_start_date, train_end_date)
     test_set = data.filter_by_date(test_start_date, test_end_date)

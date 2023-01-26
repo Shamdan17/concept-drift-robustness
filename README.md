@@ -1,6 +1,5 @@
 # concept-drift-robustness
 
-
 ## Windows PE datasets:
 
 First create a folder named data if it does not exist: 
@@ -33,4 +32,14 @@ Download the zip files from the following link:
 
 ```
 https://github.com/aleguma/kronodroid/tree/main/emulator
+```
+
+---
+## Training
+
+Training script can be used to train a specified model on a selected dataset, with optional arguments such as train_start_date, train_end_data, and more. E.g., to train a decision tree model on the bodmas dataset with default arguments, use the following command:
+
+
+```
+python src/train.py --model_type DT --dataset bodmas 
 ```

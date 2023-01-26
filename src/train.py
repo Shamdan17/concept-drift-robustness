@@ -16,6 +16,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
+from sklearn.feature_selection import SelectKBest, f_classif
 
 from dataset import PEMalwareDataset
 
@@ -30,20 +31,33 @@ def get_args_parser():
     parser.add_argument('--dataset', default='', type=str)
     parser.add_argument('--data_root', default='data/', type=str)
     parser.add_argument('--output_dir', default='exps/', type=str)
+    parser.add_argument('--feat_select', action='store_true', help='whether to apply feature selection or not')
+    parser.add_argument('--top_k_feat', default=1000, type=int, help='top k features to be selected')
+
+
     return parser
 
+def select_top_features(data, top_k):
+    top_feat = SelectKBest(f_classif, k=top_k).fit_transform(data.features, data.labels)
+    data.features = top_feat
+    return data
 
 def main(args):
 
+    np.random.seed(0)
+
     print('Loading the dataset...')
     data = PEMalwareDataset.from_name(args.dataset)
+
+    if args.feat_select:
+        data = select_top_features(data, args.top_k_feat)
 
     train_set = data.filter_by_date(args.train_start_date, args.train_end_date)
     test_set = data.filter_by_date(args.test_start_date, args.test_end_date)
 
     counts = Counter(train_set.labels) 
     assert len(counts) > 1, 'Training data only has 1 class, consider expanding the time period'
-    
+
     X_train, X_val, y_train, y_val = \
         train_test_split(train_set.features, train_set.labels, test_size=0.20, random_state=0) 
     

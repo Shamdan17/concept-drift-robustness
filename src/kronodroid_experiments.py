@@ -149,6 +149,7 @@ def first_experiment():
 
 def second_experiment():
     # Second experiment, robustness of the best models in first experiment to increasing concept drift
+    models = ['XGBoost', 'MLP']
     params_by_dataset = {
         "kronodroid": {
             "start_year": 2011,
@@ -344,7 +345,7 @@ def third_experiment():
         }
     }
 
-    # models = ["LR", "RF", "XGBoost"]
+    models = ["MLP", "XGBoost"]
 
     data_ratios = [1.0, 0.1, 0.01]
     all_dataset_statistics = {}
@@ -513,6 +514,6 @@ def third_experiment():
 
 
 if __name__ == '__main__':
-    first_experiment()
-    second_experiment()
+    # first_experiment()
+    # second_experiment()
     third_experiment()

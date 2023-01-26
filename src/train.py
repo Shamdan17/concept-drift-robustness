@@ -113,7 +113,7 @@ def get_model(model_type):
     elif model_type == "MLP":
         model = MLPClassifier(
             hidden_layer_sizes=(512, 256, 256),
-            max_iter=256,
+            max_iter=1000,
             alpha=0.0001,
             solver="sgd",
             verbose=10,
